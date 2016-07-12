@@ -15,3 +15,6 @@ Clab\TaxonomyBundle\Entity\Term:
         slug:
             expose: true
             read_only: true
+        images:
+            expose: true
+            read_only: true

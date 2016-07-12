@@ -1,17 +1,10 @@
 parameters:
     clab_taxonomy.manager.class: Clab\TaxonomyBundle\Service\Manager
-    clab_taxonomy.term_listener.class: Clab\TaxonomyBundle\Listener\TermListener
 
 services:
     clab_taxonomy.manager:
         class: %clab_taxonomy.manager.class%
         arguments: [ @doctrine.orm.entity_manager, @service_container ]
-
-    clab_taxonomy.term_listener:
-        class: %clab_taxonomy.term_listener.class%
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
 
     clab_taxonomy.term_extension:
         class: Clab\TaxonomyBundle\Twig\TermExtension

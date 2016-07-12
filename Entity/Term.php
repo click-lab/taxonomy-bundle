@@ -4,9 +4,13 @@ namespace Clab\TaxonomyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="clab_taxonomy_term")
+ * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="Clab\TaxonomyBundle\Repository\TermRepository")
  */
 class Term
@@ -63,6 +67,55 @@ class Term
      * @ORM\ManyToMany(targetEntity="Clab\MediaBundle\Entity\Image", mappedBy="tags")
      */
     private $images;
+
+    /**
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400,
+     *     minWidthMessage = "largeur min:200px",
+     *     maxWidthMessage = "largeur max:400px",
+     *     minHeightMessage = "hauteur min:200px",
+     *     maxHeightMessage = "hauteur max:400px"
+     * )
+     * @Vich\UploadableField(mapping="clab_taxonomy_terms", fileNameProperty="iconOnName")
+     *
+     * @var File
+     */
+    private $iconOn;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $iconOnName;
+
+    /**
+     * @Assert\Image(
+     *     minWidth = 200,
+     *     maxWidth = 400,
+     *     minHeight = 200,
+     *     maxHeight = 400,
+     *     minWidthMessage = "largeur min:200px",
+     *     maxWidthMessage = "largeur max:400px",
+     *     minHeightMessage = "hauteur min:200px",
+     *     maxHeightMessage = "hauteur max:400px"
+     * )
+     * @Vich\UploadableField(mapping="clab_taxonomy_terms", fileNameProperty="iconOffName")
+     *
+     * @var File
+     */
+    private $iconOff;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $iconOffName;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="Clab\RestaurantBundle\Entity\Restaurant", mappedBy="tags")
@@ -223,4 +276,78 @@ class Term
     {
         return $this->restaurants;
     }
+
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setIconOn(File $iconOn = null)
+    {
+        $this->iconOn = $iconOn;
+
+        if ($iconOn) {
+            $this->updated = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getIconOn()
+    {
+        return $this->iconOn;
+    }
+
+    /**
+     * @param string $iconOnName
+     */
+    public function setIconOnName($iconOnName)
+    {
+        $this->iconOnName = $iconOnName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconOnName()
+    {
+        return $this->iconOnName;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setIconOff(File $iconOff = null)
+    {
+        $this->iconOff = $iconOff;
+
+        if ($iconOff) {
+            $this->updated = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getIconOff()
+    {
+        return $this->iconOff;
+    }
+
+    /**
+     * @param string $iconOffName
+     */
+    public function setIconOffName($iconOffName)
+    {
+        $this->iconOffName = $iconOffName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconOffName()
+    {
+        return $this->iconOffName;
+    }
+
 }

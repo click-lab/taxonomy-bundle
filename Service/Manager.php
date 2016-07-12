@@ -40,4 +40,11 @@ class Manager
 
         return $terms;
     }
+
+    public function getAllWithVocabulary($asArray = false, $categories = array())
+    {
+        $terms = $this->em->getRepository('ClabTaxonomyBundle:Term')->getAllWithVocabulary($asArray, $categories);
+
+        return $terms;
+    }
 }
